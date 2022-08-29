@@ -35,6 +35,7 @@ function Sort() {
 						{list.map((category, i) => {
 							return (
 								<li
+									key = {i}
 									onClick={() => onClickListItem(i)}
 									className={selected === i ? "active" : ""}
 								>
