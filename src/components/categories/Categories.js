@@ -22,6 +22,7 @@ function Categories() {
 				{categories.map((e, i) => {
 					return (
 						<li
+							key={i}
 							onClick={() => onClickCategory(i)}
 							className={i === pizza ? "active" : ""}
 						>
