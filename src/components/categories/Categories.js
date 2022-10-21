@@ -1,38 +1,33 @@
 import React from "react";
 
-function Categories() {
-	const [pizza, setPizza] = React.useState(0);
+function Categories({value, onClickCategory}) {
 
-	function onClickCategory(index) {
-		setPizza(index);
-	}
+  const categories = [
+    "все",
+    "мясные",
+    "вегетарианская",
+    "гриль",
+    "острые",
+    "закрытые",
+  ];
 
-	const categories = [
-		"все",
-		"мясные",
-		"вегетарианская",
-		"гриль",
-		"острые",
-		"закрытые",
-	];
-
-	return (
-		<div className="categories">
-			<ul>
-				{categories.map((e, i) => {
-					return (
-						<li
-							key={i}
-							onClick={() => onClickCategory(i)}
-							className={i === pizza ? "active" : ""}
-						>
-							{e}
-						</li>
-					);
-				})}
-			</ul>
-		</div>
-	);
+  return (
+    <div className="categories">
+      <ul>
+        {categories.map((categoryName, i) => {
+          return (
+            <li
+              key={i}
+              onClick={() => onClickCategory(i)}
+              className={value === i ? "active" : ""}
+            >
+              {categoryName}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
 export default Categories;
