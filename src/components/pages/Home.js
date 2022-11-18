@@ -4,28 +4,26 @@ import Sort from "../sort/Sort";
 import PizzaBlock from "../pizza-block/PizzaBlock";
 import Skeleton from "../pizza-block/Skeleton";
 import Pagination from "../pagination/Pagination";
-import {SearchContext} from "../../App";
 import {useDispatch, useSelector} from "react-redux";
-import {setCategoryId, setCurrentPage, setFilters} from "../../redux/slices/filterSlice";
+import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../../redux/slices/filterSlice";
 import qs from "qs"
 import {useNavigate} from "react-router-dom";
 import {list} from "../sort/Sort";
-import {fetchPizzas} from "../../redux/slices/pizzaSlice";
+import {fetchPizzas, selectPizzaData} from "../../redux/slices/pizzaSlice";
 
 function Home() {
   const navigate = useNavigate()
-  const {sort, categoryId, currentPage} = useSelector((state) => state.filterSlice)
   const dispatch = useDispatch()
   const isSearch = React.useRef(false)
   const isMounted = React.useRef(false)
+  const {sort, categoryId, currentPage, searchValue} = useSelector(selectFilter)
+  const {items, status} = useSelector(selectPizzaData)
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id))
   }
   const onChangePage = (page) => {
     dispatch(setCurrentPage(page))
   }
-  const {items, status} = useSelector((state) => state.pizzaSlice)
-  const {searchValue} = React.useContext(SearchContext);
   const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => (<Skeleton key={index}/>));
   const getPizzas = async () => {
@@ -46,7 +44,7 @@ function Home() {
       category,
       sortBy,
       order,
-      currentPage
+      currentPage,
     }))
     window.scrollTo(0, 0);
   }
@@ -69,7 +67,7 @@ function Home() {
   React.useEffect(() => {
     window.scrollTo(0, 0);
       getPizzas()
-  }, [categoryId, sort.sortProperty, currentPage]);
+  }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   React.useEffect(() => {
     if (isMounted.current) {

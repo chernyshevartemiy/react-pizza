@@ -9,10 +9,8 @@ import Cart from "./components/pages/Cart";
 export const SearchContext = React.createContext('')
 
 function App() {
-const [searchValue, setSearchValue] = React.useState('');
 	return (
 		<div className="wrapper">
-			<SearchContext.Provider value = {{searchValue, setSearchValue}}>
 			<Header/>
 			<div className="content">
 				<Routes>
@@ -21,7 +19,6 @@ const [searchValue, setSearchValue] = React.useState('');
 					<Route path="/cart" element={<Cart />} />
 				</Routes>
 			</div>
-			</SearchContext.Provider>
 		</div>
 	);
 }
