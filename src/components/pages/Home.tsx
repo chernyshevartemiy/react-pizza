@@ -11,20 +11,20 @@ import {useNavigate} from "react-router-dom";
 import {list} from "../sort/Sort";
 import {fetchPizzas, selectPizzaData} from "../../redux/slices/pizzaSlice";
 
-function Home() {
+const Home:React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false)
   const isMounted = React.useRef(false)
   const {sort, categoryId, currentPage, searchValue} = useSelector(selectFilter)
   const {items, status} = useSelector(selectPizzaData)
-  const onClickCategory = (id) => {
-    dispatch(setCategoryId(id))
+  const onClickCategory = (idx: number) => {
+    dispatch(setCategoryId(idx))
   }
-  const onChangePage = (page) => {
+  const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [...new Array(6)].map((_, index) => (<Skeleton key={index}/>));
   const getPizzas = async () => {
     const search = searchValue ? `&search=${searchValue}` : '';
@@ -39,7 +39,9 @@ function Home() {
     //     setItems(arr);
     //     setLoading(false);
     //   });
-    dispatch(fetchPizzas({
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({
       search,
       category,
       sortBy,

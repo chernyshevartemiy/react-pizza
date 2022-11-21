@@ -7,31 +7,32 @@ import debounce from 'lodash.debounce'
 import {useDispatch} from "react-redux";
 
 
-const Search = () => {
+const Search:React.FC = () => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState('')
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const onClickClear = () => {
     setValue('');
     dispatch(setSearchValue(''))
-    inputRef.current.focus();
+      inputRef.current?.focus();
   }
   const updateSearchValue = React.useCallback(
-    debounce((event) => {
+    debounce((event: string) => {
       dispatch(setSearchValue(event))
     }, 500),
     []
   )
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
     updateSearchValue(event.target.value)
   }
   return (
-    <div className = {styles.root}>
-      <img alt={'#'} src = {searchLogo} className = {styles.icon}/>
-      <input ref={inputRef} onChange = {(event) => onChangeInput(event)} value = {value} className = {styles.input} placeholder={'поиск пиццы..'}/>
+    <div className={styles.root}>
+      <img alt={'#'} src={searchLogo} className={styles.icon}/>
+      <input ref={inputRef} onChange={(event) => onChangeInput(event)} value={value} className={styles.input}
+             placeholder={'поиск пиццы..'}/>
       {value &&
-        <img alt={'#'} onClick={() => onClickClear("")} src={closeIcon} className={styles.closeIcon}/>
+        <img alt={'#'} onClick={() => onClickClear()} src={closeIcon} className={styles.closeIcon}/>
       }
     </div>
   );

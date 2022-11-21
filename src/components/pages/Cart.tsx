@@ -6,7 +6,7 @@ import {clearItems} from "../../redux/slices/cartSlice";
 import CartEmpty from "../cart-empty/CartEmpty";
 import {selectCart} from "../../redux/slices/cartSlice";
 
-function Cart() {
+const Cart:React.FC = () =>  {
 	const dispatch = useDispatch()
 	const onClickClear = () => {
 		if (window.confirm('are you sure you want to clear the bucket?')) {
@@ -14,7 +14,7 @@ function Cart() {
 		}
 	}
 	const {items, totalPrice} = useSelector(selectCart)
-	const totalCount = items.reduce((sum, item) => sum + item.count, 0)
+	const totalCount = items.reduce((sum: number, item: any) => sum + item.count, 0)
 	if (!totalCount) {
 		return <CartEmpty/>
 	}
@@ -96,7 +96,7 @@ function Cart() {
 					</div>
 				</div>
 				<div className="content__items">
-					{items.map((item) => <CartItem key={item.id} {...item}/>)}
+					{items.map((item: any) => <CartItem key={item.id} {...item}/>)}
 				</div>
 				<div className="cart__bottom">
 					<div className="cart__bottom-details">
@@ -111,7 +111,6 @@ function Cart() {
 					</div>
 					<div className="cart__bottom-buttons">
 						<Link to="/"
-							href="/"
 							className="button button--outline button--add go-back-btn"
 						>
 							<svg
