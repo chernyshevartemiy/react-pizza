@@ -5,15 +5,22 @@ import PizzaBlock from "../pizza-block/PizzaBlock";
 import Skeleton from "../pizza-block/Skeleton";
 import Pagination from "../pagination/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../../redux/slices/filterSlice";
+import {
+  FilterSliceState,
+  selectFilter,
+  setCategoryId,
+  setCurrentPage,
+  setFilters
+} from "../../redux/slices/filterSlice";
 import qs from "qs"
 import {useNavigate} from "react-router-dom";
 import {list} from "../sort/Sort";
 import {fetchPizzas, selectPizzaData} from "../../redux/slices/pizzaSlice";
+import {useAppDispatch} from "../../redux/store";
 
 const Home:React.FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const isSearch = React.useRef(false)
   const isMounted = React.useRef(false)
   const {sort, categoryId, currentPage, searchValue} = useSelector(selectFilter)
@@ -46,20 +53,21 @@ const Home:React.FC = () => {
       category,
       sortBy,
       order,
-      currentPage,
+      currentPage: String(currentPage),
     }))
     window.scrollTo(0, 0);
   }
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty)
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy)
       const {currentPage, categoryId} = params;
       // or just {...params}
       dispatch(setFilters({
-          currentPage,
-          categoryId,
-          sort
+          searchValue: String(params.search),
+          categoryId: Number(params.categoryId),
+          currentPage: Number(params.currentPage),
+          sort: sort ? sort : list[0]
         }
       ))
       isSearch.current = true
@@ -68,7 +76,7 @@ const Home:React.FC = () => {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
-      getPizzas()
+    getPizzas()
   }, [categoryId, sort.sortProperty, currentPage, searchValue]);
 
   React.useEffect(() => {
