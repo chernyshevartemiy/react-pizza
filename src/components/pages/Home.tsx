@@ -25,9 +25,9 @@ const Home:React.FC = () => {
   const isMounted = React.useRef(false)
   const {sort, categoryId, currentPage, searchValue} = useSelector(selectFilter)
   const {items, status} = useSelector(selectPizzaData)
-  const onClickCategory = (idx: number) => {
+  const onClickCategory = React.useCallback((idx: number) => {
     dispatch(setCategoryId(idx))
-  }
+  }, [])
   const onChangePage = (page: number) => {
     dispatch(setCurrentPage(page))
   }
@@ -95,7 +95,7 @@ const Home:React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onClickCategory={onClickCategory}/>
-        <Sort/>
+        <Sort value={sort}/>
       </div>
       <h2 className="content__title">все пиццы</h2>
       {status === 'error' ? (
