@@ -5,18 +5,14 @@ import PizzaBlock from "../pizza-block/PizzaBlock";
 import Skeleton from "../pizza-block/Skeleton";
 import Pagination from "../pagination/Pagination";
 import {useDispatch, useSelector} from "react-redux";
-import {
-  FilterSliceState,
-  selectFilter,
-  setCategoryId,
-  setCurrentPage,
-  setFilters
-} from "../../redux/slices/filterSlice";
 import qs from "qs"
 import {useNavigate} from "react-router-dom";
 import {list} from "../sort/Sort";
-import {fetchPizzas, selectPizzaData} from "../../redux/slices/pizzaSlice";
 import {useAppDispatch} from "../../redux/store";
+import {selectFilter} from "../../redux/filter/selectors";
+import {setCategoryId, setCurrentPage, setFilters} from "../../redux/filter/slice";
+import {selectPizzaData} from "../../redux/pizza/selectors";
+import {fetchPizzas} from "../../redux/pizza/asyncActions";
 
 const Home:React.FC = () => {
   const navigate = useNavigate()
@@ -47,7 +43,6 @@ const Home:React.FC = () => {
     //     setLoading(false);
     //   });
     dispatch(
-      // @ts-ignore
       fetchPizzas({
       search,
       category,

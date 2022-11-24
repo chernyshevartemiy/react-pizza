@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './search.module.scss'
 import searchLogo from '../../assets/img/pizza-search.svg'
 import closeIcon from '../../assets/img/close-icon.svg'
-import {setSearchValue} from "../../redux/slices/filterSlice";
 import debounce from 'lodash.debounce'
 import {useDispatch} from "react-redux";
+import {setSearchValue} from "../../redux/filter/slice";
 
 
 const Search:React.FC = () => {
